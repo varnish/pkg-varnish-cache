@@ -22,5 +22,8 @@ for i in $(echo ${!VARS[@]} | tr ' ' '\n' | sort | sed -n 's/_version//p'); do
 	fi
 done
 
+if ! bash "$(dirname "$0")/../scripts/validate-arch-pkgbuilds.sh"; then
+	FAIL=1
+fi
+
 exit $FAIL
-guillaume@flamp:

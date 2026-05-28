@@ -1,5 +1,7 @@
 # Package builder for Varnish Cache tools
 
+[![CI](https://github.com/varnish/pkg-varnish-cache/actions/workflows/packages.yml/badge.svg)](https://github.com/varnish/pkg-varnish-cache/actions/workflows/packages.yml)
+
 [Varnish Cache](https://github.com/varnishcache/varnish-cache) is a very extensible caching reverse-proxy, but if you are a beginner, it can be hard to get started or even to discover which vmods are useful. So this repository has two goals:
 - providing a curated list of tools that should be interesting to most users
 - building those tools as `deb`/`rpm` packages for easy consumptions
