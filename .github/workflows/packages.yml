@@ -28,6 +28,12 @@ jobs:
           - almalinux-9-rpm
           - almalinux-10-rpm
           - amazonlinux-2023-rpm
+          - archlinux-latest-arch
+        exclude:
+          - target: archlinux-latest-arch
+            arch:
+              name: arm64
+              suffix: "-arm"
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5
@@ -86,6 +92,10 @@ jobs:
             package: vmod-digest
           - target: amazonlinux-2023-rpm
             package: vmod-digest
+          - target: archlinux-latest-arch
+            arch:
+              name: arm64
+              suffix: "-arm"
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5

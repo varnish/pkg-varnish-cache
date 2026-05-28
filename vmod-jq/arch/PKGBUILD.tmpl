@@ -1,0 +1,35 @@
+# Maintainer: Guillaume Quintard <guillaume.quintard@varnish-software.com>
+
+pkgname=vmod-jq
+pkgver=@PKGVER@
+pkgrel=@PKGREL@
+_srcver=@SRCVER@
+pkgdesc="Use jq programs from Varnish VCL"
+arch=('x86_64')
+url="https://github.com/varnishcache-friends/libvmod-jq"
+license=('BSD-2-Clause')
+depends=("varnish=$pkgver-$pkgrel" 'jq')
+makedepends=('autoconf' 'automake' 'libtool' 'autoconf-archive' 'pkg-config' 'python-docutils')
+source=("libvmod-jq-$_srcver.tar.gz::https://github.com/varnishcache-friends/libvmod-jq/archive/${_srcver}.tar.gz")
+sha512sums=('SKIP')
+
+build() {
+    cd "libvmod-jq-$_srcver"
+    ./autogen.sh
+    ./configure \
+        --prefix=/usr \
+        --sysconfdir=/etc \
+        --localstatedir=/var/lib
+    make
+}
+
+check() {
+    cd "libvmod-jq-$_srcver"
+    make check VERBOSE=1
+}
+
+package() {
+    cd "libvmod-jq-$_srcver"
+    make DESTDIR="$pkgdir" install
+    install -Dm644 "LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

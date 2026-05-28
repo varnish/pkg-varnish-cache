@@ -1,0 +1,9 @@
+*
+!.gitignore
+!PKGBUILD.tmpl
+!varnish.install
+!varnish.service
+!varnishncsa.service
+!varnishreload
+!varnish.logrotate
+!varnish.sysusers
