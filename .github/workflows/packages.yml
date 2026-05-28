@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - '**'
+      - "**"
 
 jobs:
   build_varnish:
@@ -96,6 +96,9 @@ jobs:
             arch:
               name: arm64
               suffix: "-arm"
+          # FIXME: install an AUR helper to retrieve the `uuid` package
+          - target: archlinux-latest-arch
+            package: vmod-uuid
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5
@@ -129,7 +132,7 @@ jobs:
             -v$(pwd)/new_packages:/new_packages \
             $PARAM_DIST:$PARAM_RELEASE \
             /workdir/build_scripts/make-$EXT-packages.sh
-        
+
           tree new_packages
 
       - name: Upload artifacts
@@ -158,37 +161,37 @@ jobs:
             fi
           done
 
-#      - name: Sign
-#        run: |
-#          for f in $(find packages -type f); do
-#              fname=$(basename $f)
-#              dname=$(dirname $f)
-#              sum=$(sha256sum $f | awk '{print $1}')
-#
-#              mkdir -p signed/$dname
-#              # we don't sign dsc files
-#              if [ "${f##*.}" = "dsc" ]; then
-#                  cp "$f" signed/$f
-#                  continue
-#              fi
-#
-#              curl \
-#                  -v \
-#                  --http1.1 \
-#                  --show-error \
-#                  --fail \
-#                  --data-binary @$f \
-#                  --header "content-sha256: $sum" \
-#                  --header "filename: $fname" \
-#                  --header "key: ${{ secrets.PKGSIGN_KEY }}" \
-#                  -u "${{ secrets.PKGSIGN_USER }}:${{ secrets.PKGSIGN_PASS}}" \
-#                  -o signed/$f "${{ secrets.PKGSIGN_URL }}"
-#          done
+      #      - name: Sign
+      #        run: |
+      #          for f in $(find packages -type f); do
+      #              fname=$(basename $f)
+      #              dname=$(dirname $f)
+      #              sum=$(sha256sum $f | awk '{print $1}')
+      #
+      #              mkdir -p signed/$dname
+      #              # we don't sign dsc files
+      #              if [ "${f##*.}" = "dsc" ]; then
+      #                  cp "$f" signed/$f
+      #                  continue
+      #              fi
+      #
+      #              curl \
+      #                  -v \
+      #                  --http1.1 \
+      #                  --show-error \
+      #                  --fail \
+      #                  --data-binary @$f \
+      #                  --header "content-sha256: $sum" \
+      #                  --header "filename: $fname" \
+      #                  --header "key: ${{ secrets.PKGSIGN_KEY }}" \
+      #                  -u "${{ secrets.PKGSIGN_USER }}:${{ secrets.PKGSIGN_PASS}}" \
+      #                  -o signed/$f "${{ secrets.PKGSIGN_URL }}"
+      #          done
 
       - name: Display collected packages
         run: |
           ls -lhR all-packages/
-      
+
       - name: Upload all packages as single artifact
         uses: actions/upload-artifact@v7
         with:
