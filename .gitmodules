@@ -1,36 +1,36 @@
 [submodule "varnish/arch"]
 	path = varnish/arch
-	url = ssh://aur@aur.archlinux.org/varnish.git
+	url = https://aur.archlinux.org/varnish.git
 [submodule "varnish-modules/arch"]
 	path = varnish-modules/arch
-	url = ssh://aur@aur.archlinux.org/varnish-modules.git
+	url = https://aur.archlinux.org/varnish-modules.git
 [submodule "vmod-cfg/arch"]
 	path = vmod-cfg/arch
-	url = ssh://aur@aur.archlinux.org/vmod-cfg.git
+	url = https://aur.archlinux.org/vmod-cfg.git
 [submodule "vmod-digest/arch"]
 	path = vmod-digest/arch
-	url = ssh://aur@aur.archlinux.org/vmod-digest.git
+	url = https://aur.archlinux.org/vmod-digest.git
 [submodule "vmod-fileserver/arch"]
 	path = vmod-fileserver/arch
-	url = ssh://aur@aur.archlinux.org/vmod-fileserver.git
+	url = https://aur.archlinux.org/vmod-fileserver.git
 [submodule "vmod-geoip2/arch"]
 	path = vmod-geoip2/arch
-	url = ssh://aur@aur.archlinux.org/vmod-geoip2.git
+	url = https://aur.archlinux.org/vmod-geoip2.git
 [submodule "vmod-jq/arch"]
 	path = vmod-jq/arch
-	url = ssh://aur@aur.archlinux.org/vmod-jq.git
+	url = https://aur.archlinux.org/vmod-jq.git
 [submodule "vmod-querystring/arch"]
 	path = vmod-querystring/arch
-	url = ssh://aur@aur.archlinux.org/vmod-querystring.git
+	url = https://aur.archlinux.org/vmod-querystring.git
 [submodule "vmod-redis/arch"]
 	path = vmod-redis/arch
-	url = ssh://aur@aur.archlinux.org/vmod-redis.git
+	url = https://aur.archlinux.org/vmod-redis.git
 [submodule "vmod-reqwest/arch"]
 	path = vmod-reqwest/arch
-	url = ssh://aur@aur.archlinux.org/vmod-reqwest.git
+	url = https://aur.archlinux.org/vmod-reqwest.git
 [submodule "vmod-rers/arch"]
 	path = vmod-rers/arch
-	url = ssh://aur@aur.archlinux.org/vmod-rers.git
+	url = https://aur.archlinux.org/vmod-rers.git
 [submodule "vmod-uuid/arch"]
 	path = vmod-uuid/arch
-	url = ssh://aur@aur.archlinux.org/vmod-uuid.git
+	url = https://aur.archlinux.org/vmod-uuid.git
