@@ -9,4 +9,4 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: true
-      - run: bash scripts/validate-arch-pkgbuilds.sh
+      - run: bash build_scripts/validate-arch-pkgbuilds.sh
