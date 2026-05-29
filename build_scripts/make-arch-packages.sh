@@ -20,7 +20,7 @@ PDIR="$PDIR/archlinux/latest/$ARCH"
 mkdir -p "$PDIR"
 
 pacman -Sy --noconfirm --needed base-devel
-id builder 2>/dev/null || useradd -m builder
+useradd -m builder
 echo "builder ALL=(ALL) NOPASSWD: /usr/bin/pacman" > /etc/sudoers.d/builder
 sed -i "s/^#*MAKEFLAGS=.*/MAKEFLAGS=\"-j$(nproc)\"/" /etc/makepkg.conf
 
@@ -34,6 +34,13 @@ sed \
     -e "s/@PKGREL@/$package_release/g" \
     -e "s/@SRCVER@/$src_ver/g" \
     arch/PKGBUILD.tmpl > arch/PKGBUILD
+
+# install uuid from AUR for vmod-uuid
+if [ "$PKG_NAME" = "vmod-uuid" ]; then
+    pacman -S --noconfirm git
+    su builder -c "git clone https://aur.archlinux.org/uuid.git /tmp/aur-uuid && cd /tmp/aur-uuid && makepkg -s --noconfirm --noprogressbar"
+    pacman -U --noconfirm /tmp/aur-uuid/uuid-*.pkg.tar.zst
+fi
 
 chown -R builder arch/
 su builder -c "cd '$(pwd)/arch' && makepkg -s --noconfirm --noprogressbar"

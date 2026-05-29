@@ -96,9 +96,6 @@ jobs:
             arch:
               name: arm64
               suffix: "-arm"
-          # FIXME: install an AUR helper to retrieve the `uuid` package
-          - target: archlinux-latest-arch
-            package: vmod-uuid
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5
