@@ -12,6 +12,7 @@ elif pacman -V > /dev/null 2>&1; then
 	pacman -S --noconfirm git base-devel
 	useradd -m builder
 	echo "builder ALL=(ALL) NOPASSWD: /usr/bin/pacman" > /etc/sudoers.d/builder
+	chmod 0440 /etc/sudoers.d/builder
 	su builder -c "git clone https://aur.archlinux.org/uuid.git /tmp/aur-uuid && cd /tmp/aur-uuid && makepkg -s --noconfirm --noprogressbar"
 	pacman -U --noconfirm /tmp/aur-uuid/uuid-*.pkg.tar.zst
 	pacman -U --noconfirm ./*.pkg.tar.zst

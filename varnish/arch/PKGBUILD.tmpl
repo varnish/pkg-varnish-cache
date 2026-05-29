@@ -52,8 +52,8 @@ package() {
   install -Dm644 "$srcdir/varnish.service" "$pkgdir/usr/lib/systemd/system/varnish.service"
   install -Dm644 "$srcdir/varnishncsa.service" "$pkgdir/usr/lib/systemd/system/varnishncsa.service"
   install -Dm755 "$srcdir/varnishreload" "$pkgdir/usr/bin/varnishreload"
-  install -Dm755 "$srcdir/varnish.logrotate" "$pkgdir/etc/logrotate.d/varnish"
-  install -Dm755 "$srcdir/varnish.sysusers" "$pkgdir/usr/lib/sysusers.d/varnish.conf"
+  install -Dm644 "$srcdir/varnish.logrotate" "$pkgdir/etc/logrotate.d/varnish"
+  install -Dm644 "$srcdir/varnish.sysusers" "$pkgdir/usr/lib/sysusers.d/varnish.conf"
 
   # config
   install -Dm644 "etc/example.vcl" "$pkgdir/etc/varnish/default.vcl"

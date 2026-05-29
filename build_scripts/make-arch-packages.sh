@@ -22,6 +22,7 @@ mkdir -p "$PDIR"
 pacman -Sy --noconfirm --needed base-devel
 useradd -m builder
 echo "builder ALL=(ALL) NOPASSWD: /usr/bin/pacman" > /etc/sudoers.d/builder
+chmod 0440 /etc/sudoers.d/builder
 sed -i "s/^#*MAKEFLAGS=.*/MAKEFLAGS=\"-j$(nproc)\"/" /etc/makepkg.conf
 
 if [ "$PKG_NAME" != "varnish" ]; then
