@@ -22,6 +22,7 @@ mkdir -p "$PDIR"
 pacman -Sy --noconfirm --needed base-devel
 id builder 2>/dev/null || useradd -m builder
 echo "builder ALL=(ALL) NOPASSWD: /usr/bin/pacman" > /etc/sudoers.d/builder
+sed -i "s/^#*MAKEFLAGS=.*/MAKEFLAGS=\"-j$(nproc)\"/" /etc/makepkg.conf
 
 if [ "$PKG_NAME" != "varnish" ]; then
     pacman -U --noconfirm /deps/arch/$ARCH/varnish-[0-9]*.pkg.tar.zst
