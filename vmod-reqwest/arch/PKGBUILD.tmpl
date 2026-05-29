@@ -12,6 +12,7 @@ depends=("varnish=$pkgver-$pkgrel")
 makedepends=('cargo' 'clang' 'openssl' 'pkg-config' 'python-docutils' 'jq')
 source=("$pkgname-$_srcver.tar.gz::https://github.com/varnish-rs/vmod-reqwest/archive/refs/tags/v${_srcver}.tar.gz")
 sha512sums=('SKIP')
+options=(!lto)
 
 prepare() {
     cd "$pkgname-$_srcver"
