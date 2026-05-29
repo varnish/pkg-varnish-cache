@@ -102,8 +102,6 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5
-        with:
-          submodules: true
 
       - name: Download a specific artifact
         uses: actions/download-artifact@v8
@@ -207,6 +205,11 @@ jobs:
       matrix:
         arch: *arches
         target: *targets
+        exclude:
+          - target: archlinux-latest-arch
+            arch:
+              name: arm64
+              suffix: "-arm"
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5

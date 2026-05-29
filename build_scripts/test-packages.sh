@@ -2,11 +2,14 @@
 
 set -eux
 
-if apt-get -v; then
+if apt-get -v 2>/dev/null; then
 	export DEBIAN_FRONTEND=noninteractive
 	export DEBCONF_NONINTERACTIVE_SEEN=true
 	apt-get update
 	apt-get install -y ./*deb
+elif pacman -V > /dev/null 2>&1; then
+	pacman -Sy --noconfirm
+	pacman -U --noconfirm ./*.pkg.tar.zst
 else
 	dnf install -y 'dnf-command(config-manager)' || true
 	yum config-manager --set-enabled powertools || true
