@@ -16,7 +16,7 @@ if [ ! -f arch/PKGBUILD.tmpl ]; then
     exit 0
 fi
 
-PDIR="$PDIR/arch/$ARCH"
+PDIR="$PDIR/archlinux/latest/$ARCH"
 mkdir -p "$PDIR"
 
 pacman -Sy --noconfirm --needed base-devel
@@ -25,7 +25,7 @@ echo "builder ALL=(ALL) NOPASSWD: /usr/bin/pacman" > /etc/sudoers.d/builder
 sed -i "s/^#*MAKEFLAGS=.*/MAKEFLAGS=\"-j$(nproc)\"/" /etc/makepkg.conf
 
 if [ "$PKG_NAME" != "varnish" ]; then
-    pacman -U --noconfirm /deps/arch/$ARCH/varnish-[0-9]*.pkg.tar.zst
+    pacman -U --noconfirm /deps/archlinux/latest/$ARCH/varnish-[0-9]*.pkg.tar.zst
 fi
 
 src_ver="${VARS[${PKG_NAME}_version]:-}"
