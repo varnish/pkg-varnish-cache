@@ -1,0 +1,35 @@
+# Maintainer: Guillaume Quintard <guillaume.quintard@varnish-software.com>
+
+pkgname=vmod-uuid
+_srcver=@SRCVER@
+pkgver=@PKGVER@
+pkgrel=@PKGREL@
+pkgdesc="Generate UUIDs in Varnish VCL"
+arch=('x86_64')
+url="https://github.com/otto-de/libvmod-uuid"
+license=('BSD-2-Clause')
+depends=("varnish=$pkgver-$pkgrel" 'uuid')
+makedepends=('autoconf' 'automake' 'libtool' 'autoconf-archive' 'pkg-config' 'python-docutils')
+source=("libvmod-uuid-$_srcver.tar.gz::https://github.com/otto-de/libvmod-uuid/archive/${_srcver}.tar.gz")
+sha512sums=('SKIP')
+
+build() {
+    cd "libvmod-uuid-$_srcver"
+    ./autogen.sh
+    ./configure \
+        --prefix=/usr \
+        --sysconfdir=/etc \
+        --localstatedir=/var/lib
+    make
+}
+
+check() {
+    cd "libvmod-uuid-$_srcver"
+    make check VERBOSE=1
+}
+
+package() {
+    cd "libvmod-uuid-$_srcver"
+    make DESTDIR="$pkgdir" install
+    install -Dm644 "LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

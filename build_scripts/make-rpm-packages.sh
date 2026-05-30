@@ -14,6 +14,7 @@ PDIR="$PDIR/${ID/amzn/amazonlinux}/${VERSION_ID%.*}/${ARCH}"
 
 cd redhat
 sed -i -e '' *
+dnf makecache --refresh
 dnf -y install findutils 'dnf-command(config-manager)'
 EXTRA_REPO=
 case "$PLATFORM_ID" in

@@ -1,0 +1,65 @@
+# Maintainer: Guillaume Quintard <guillaume.quintard@varnish-software.com>
+
+pkgname=varnish
+pkgver=@PKGVER@
+pkgrel=@PKGREL@
+pkgdesc="High-performance HTTP accelerator"
+arch=('x86_64')
+url="https://www.varnish-cache.org/"
+license=('BSD-2-Clause')
+# Yes, it really does need gcc during runtime to compile its rules.
+depends=('gcc' 'gcc-libs' 'libnsl' 'pcre2' 'openssl')
+makedepends=('python-docutils' 'python-sphinx' 'openssl')
+optdepends=('python: needed for vmod development')
+backup=('etc/varnish/default.vcl')
+install=$pkgname.install
+source=("https://github.com/varnish/varnish/releases/download/varnish-$pkgver/varnish-$pkgver.tar.gz"
+	"varnish.service"
+	"varnishncsa.service"
+	"varnishreload"
+	"varnish.logrotate"
+	"varnish.sysusers")
+sha512sums=('SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP')
+
+build() {
+  cd "varnish-$pkgver"
+
+  ./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --localstatedir=/var/lib \
+    --sbindir=/usr/bin
+
+  make
+}
+
+check() {
+  cd "varnish-$pkgver"
+
+  make check
+}
+
+package() {
+  cd "varnish-$pkgver"
+
+  make DESTDIR="$pkgdir" install
+
+  install -Dm644 "$srcdir/varnish.service" "$pkgdir/usr/lib/systemd/system/varnish.service"
+  install -Dm644 "$srcdir/varnishncsa.service" "$pkgdir/usr/lib/systemd/system/varnishncsa.service"
+  install -Dm755 "$srcdir/varnishreload" "$pkgdir/usr/bin/varnishreload"
+  install -Dm644 "$srcdir/varnish.logrotate" "$pkgdir/etc/logrotate.d/varnish"
+  install -Dm644 "$srcdir/varnish.sysusers" "$pkgdir/usr/lib/sysusers.d/varnish.conf"
+
+  # config
+  install -Dm644 "etc/example.vcl" "$pkgdir/etc/varnish/default.vcl"
+
+  # license
+  install -Dm644 "LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+
+  install -Dm755 -d "$pkgdir/var/lib/varnish"
+}
