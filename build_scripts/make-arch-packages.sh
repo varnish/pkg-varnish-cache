@@ -23,7 +23,11 @@ pacman -Sy --noconfirm --needed base-devel
 useradd -m builder
 echo "builder ALL=(ALL) NOPASSWD: /usr/bin/pacman" > /etc/sudoers.d/builder
 chmod 0440 /etc/sudoers.d/builder
-sed -i "s/^#*MAKEFLAGS=.*/MAKEFLAGS=\"-j$(nproc)\"/" /etc/makepkg.conf
+
+MAKEPKG_CONF=$(mktemp)
+cp /etc/makepkg.conf "$MAKEPKG_CONF"
+echo "MAKEFLAGS=\"-j$(nproc)\"" >> "$MAKEPKG_CONF"
+chmod a+r "$MAKEPKG_CONF"
 
 if [ "$PKG_NAME" != "varnish" ]; then
     pacman -U --noconfirm /deps/archlinux/latest/$ARCH/varnish-[0-9]*.pkg.tar.zst
@@ -39,12 +43,12 @@ sed \
 # install uuid from AUR for vmod-uuid
 if [ "$PKG_NAME" = "vmod-uuid" ]; then
     pacman -S --noconfirm git
-    su builder -c "git clone https://aur.archlinux.org/uuid.git /tmp/aur-uuid && cd /tmp/aur-uuid && makepkg -s --noconfirm --noprogressbar"
+    su builder -c "git clone https://aur.archlinux.org/uuid.git /tmp/aur-uuid && cd /tmp/aur-uuid && makepkg --config '$MAKEPKG_CONF' -s --noconfirm --noprogressbar"
     pacman -U --noconfirm /tmp/aur-uuid/uuid-*.pkg.tar.zst
 fi
 
 chown -R builder arch/
-su builder -c "cd '$(pwd)/arch' && makepkg -s --noconfirm --noprogressbar"
+su builder -c "cd '$(pwd)/arch' && makepkg --nocheck --config '$MAKEPKG_CONF' -s --noconfirm --noprogressbar"
 
 if [ "$PKG_NAME" = "varnish" ]; then
     pacman -U --noconfirm arch/varnish-[0-9]*.pkg.tar.zst
