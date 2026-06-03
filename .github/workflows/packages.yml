@@ -20,13 +20,13 @@ jobs:
             suffix: "-arm"
         target: &targets
           - debian-bookworm-deb
-          - debian-trixie-deb
-          - ubuntu-jammy-deb
-          - ubuntu-noble-deb
-          - ubuntu-questing-deb
-          - ubuntu-resolute-deb
-          - almalinux-9-rpm
-          - almalinux-10-rpm
+          #- debian-trixie-deb
+          #- ubuntu-jammy-deb
+          #- ubuntu-noble-deb
+          #- ubuntu-questing-deb
+          #- ubuntu-resolute-deb
+          #- almalinux-9-rpm
+          #- almalinux-10-rpm
           - amazonlinux-2023-rpm
           - archlinux-latest-arch
         exclude:
