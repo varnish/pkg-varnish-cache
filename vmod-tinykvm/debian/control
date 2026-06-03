@@ -1,0 +1,31 @@
+Source: vmod-tinykvm
+Section: net
+Priority: extra
+Maintainer: Varnish Software <opensource@varnish-software.com>
+Build-Depends:
+ build-essential,
+ cmake,
+ curl,
+ debhelper (>= 9),
+ debhelper-compat (= 11),
+ g++,
+ libarchive-dev,
+ libcurl4-openssl-dev,
+ libjemalloc-dev,
+ pkg-config,
+ python3,
+ varnish,
+ varnish-dev,
+Standards-Version: 1.0.3
+Homepage: https://github.com/varnish/libvmod-tinykvm
+
+Package: vmod-tinykvm
+Architecture: any
+Depends:
+ varnish (= ${binary:Version}),
+ ${varnishd:ABI},
+ ${shlibs:Depends},
+ ${misc:Depends},
+Description: High-performance KVM sandbox VMOD for Varnish
+ Provides vmod_kvm and vmod_tinykvm for running sandboxed compute
+ workloads inside Varnish via a lightweight KVM hypervisor.

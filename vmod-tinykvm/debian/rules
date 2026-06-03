@@ -1,0 +1,33 @@
+#!/usr/bin/make -f
+DEB_BUILD_OPTIONS=noddebs
+
+%:
+	dh $@ --parallel
+
+VARNISHD_ABI = $(shell varnishd -V 2>&1 | sed -En 's/.*revision ([0-9a-f]*).*/\1/p')
+
+override_dh_gencontrol:
+	echo "varnishd:ABI=varnishd-abi-$(VARNISHD_ABI)" >> debian/substvars
+	dh_gencontrol -- -Tdebian/substvars
+
+override_dh_auto_configure:
+	curl -sL https://github.com/varnish/tinykvm/archive/2aef0386066a324009e0fcae446e5b621752aad2.tar.gz \
+		| tar -xz --strip-components=1 -C lib/libkvm/ext/tinykvm
+	curl -sL https://github.com/nlohmann/json/archive/9f40a7b454befb6e836b493b41df9e64c7a6fd63.tar.gz \
+		| tar -xz --strip-components=1 -C lib/libkvm/ext/json
+	curl -sL https://github.com/cameron314/concurrentqueue/archive/6dd38b8a1dbaa7863aa907045f32308a56a6ff5d.tar.gz \
+		| tar -xz --strip-components=1 -C lib/libkvm/ext/concurrentqueue
+	mkdir -p build
+	cmake -S. -Bbuild \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DVARNISH_PLUS=OFF \
+		-DPython3_EXECUTABLE=$(shell which python3)
+
+override_dh_auto_build:
+	cmake --build build -j$(shell nproc)
+
+override_dh_auto_install:
+	install -d debian/vmod-tinykvm/usr/lib/varnish/vmods/
+	cp build/libvmod_*.so debian/vmod-tinykvm/usr/lib/varnish/vmods/
+
+override_dh_auto_test:

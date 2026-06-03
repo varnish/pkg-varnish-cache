@@ -1,0 +1,39 @@
+# Maintainer: Guillaume Quintard <guillaume.quintard@varnish-software.com>
+
+pkgname=vmod-tinykvm
+pkgver=@PKGVER@
+pkgrel=@PKGREL@
+_srcver=@SRCVER@
+pkgdesc="High-performance KVM sandbox VMOD for Varnish"
+arch=('x86_64')
+url="https://github.com/varnish/libvmod-tinykvm"
+license=('BSD-2-Clause')
+depends=("varnish=$pkgver-$pkgrel" 'curl' 'libarchive' 'jemalloc')
+makedepends=('cmake' 'gcc' 'python' 'pkg-config')
+source=(
+    "$pkgname-${_srcver}.tar.gz::https://github.com/varnish/libvmod-tinykvm/archive/refs/tags/v${_srcver}.tar.gz"
+    "tinykvm-2aef0386.tar.gz::https://github.com/varnish/tinykvm/archive/2aef0386066a324009e0fcae446e5b621752aad2.tar.gz"
+    "json-9f40a7b4.tar.gz::https://github.com/nlohmann/json/archive/9f40a7b454befb6e836b493b41df9e64c7a6fd63.tar.gz"
+    "concurrentqueue-6dd38b8a.tar.gz::https://github.com/cameron314/concurrentqueue/archive/6dd38b8a1dbaa7863aa907045f32308a56a6ff5d.tar.gz"
+)
+sha512sums=('SKIP' 'SKIP' 'SKIP' 'SKIP')
+
+prepare() {
+    cp -r "tinykvm-2aef0386066a324009e0fcae446e5b621752aad2/." "libvmod-tinykvm-${_srcver}/lib/libkvm/ext/tinykvm/"
+    cp -r "json-9f40a7b454befb6e836b493b41df9e64c7a6fd63/." "libvmod-tinykvm-${_srcver}/lib/libkvm/ext/json/"
+    cp -r "concurrentqueue-6dd38b8a1dbaa7863aa907045f32308a56a6ff5d/." "libvmod-tinykvm-${_srcver}/lib/libkvm/ext/concurrentqueue/"
+}
+
+build() {
+    cmake -S "libvmod-tinykvm-${_srcver}" -Bbuild \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DVARNISH_PLUS=OFF \
+        -DPython3_EXECUTABLE=$(which python3)
+    cmake --build build -j$(nproc)
+}
+
+package() {
+    install -d "$pkgdir/usr/lib/varnish/vmods/"
+    install -m755 build/libvmod_*.so -t "$pkgdir/usr/lib/varnish/vmods/"
+    install -Dm644 "libvmod-tinykvm-${_srcver}/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
