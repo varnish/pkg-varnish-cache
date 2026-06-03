@@ -1,0 +1,32 @@
+# Maintainer: Guillaume Quintard <guillaume.quintard@varnish-software.com>
+
+pkgname=vmod-k8s-endpoint
+pkgver=@PKGVER@
+pkgrel=@PKGREL@
+_srcver=@SRCVER@
+_srcname=vmod-k8s_endpoint
+pkgdesc="Kubernetes endpoint discovery director VMOD for Varnish"
+arch=('x86_64')
+url="https://github.com/varnish/vmod-k8s_endpoint"
+license=('MIT')
+depends=("varnish=$pkgver-$pkgrel")
+makedepends=('cargo' 'clang' 'openssl' 'pkg-config' 'python-docutils' 'jq')
+source=("$pkgname-$_srcver.tar.gz::https://github.com/varnish/vmod-k8s_endpoint/archive/refs/tags/v${_srcver}.tar.gz")
+sha512sums=('SKIP')
+options=(!lto)
+
+prepare() {
+    cd "$_srcname-$_srcver"
+    cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
+}
+
+build() {
+    cd "$_srcname-$_srcver"
+    cargo build --frozen --release
+}
+
+package() {
+    cd "$_srcname-$_srcver"
+    install -Dt "$pkgdir/$(pkg-config varnishapi --variable=vmoddir)" target/release/*.so
+    install -Dm644 "LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

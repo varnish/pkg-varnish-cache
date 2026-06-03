@@ -75,18 +75,18 @@ jobs:
         arch: *arches
         target: *targets
         package:
-#          - varnish-modules
-#          - vmod-uuid
-#          - vmod-cfg
-#          - vmod-digest
-#          - vmod-fileserver
-#          - vmod-geoip2
-#          - vmod-jq
-#          - vmod-querystring
-#          - vmod-redis
-#          - vmod-reqwest
-#          - vmod-rers
-           - vmod-tinykvm
+          - varnish-modules
+          - vmod-uuid
+          - vmod-cfg
+          - vmod-digest
+          - vmod-fileserver
+          - vmod-geoip2
+          - vmod-jq
+          - vmod-querystring
+          - vmod-redis
+          - vmod-reqwest
+          - vmod-rers
+          - vmod-k8s-endpoint
         exclude:
           # no mhash-devel
           - target: almalinux-10-rpm
