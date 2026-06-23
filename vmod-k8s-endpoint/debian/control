@@ -1,0 +1,30 @@
+Source: vmod-k8s-endpoint
+Section: net
+Priority: extra
+Maintainer: Varnish Software <opensource@varnish-software.com>
+Build-Depends:
+ build-essential,
+ cargo,
+ debhelper (>= 9),
+ debhelper-compat (= 11),
+ jq,
+ libclang-dev,
+ libssl-dev,
+ pkg-config,
+ python3-docutils,
+ varnish,
+ varnish-dev,
+Standards-Version: 3.9.5
+Vcs-Git: git://github.com/varnish/vmod-k8s-endpoint.git
+
+Package: vmod-k8s-endpoint
+Architecture: any
+Depends:
+ varnish (= ${binary:Version}),
+ ${varnishd:ABI},
+ ${shlibs:Depends},
+ ${misc:Depends},
+Description: Kubernetes endpoint discovery director VMOD for Varnish
+ Watches a Kubernetes service's endpoints and exposes them as a
+ randomly-selected director. Backends are added and removed automatically
+ as pods come and go.

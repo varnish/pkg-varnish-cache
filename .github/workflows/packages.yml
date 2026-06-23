@@ -86,6 +86,7 @@ jobs:
           - vmod-redis
           - vmod-reqwest
           - vmod-rers
+          - vmod-k8s-endpoint
         exclude:
           # no mhash-devel
           - target: almalinux-10-rpm
