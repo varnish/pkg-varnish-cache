@@ -17,7 +17,7 @@ DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
 LOCAL_CONFIGURE_FLAGS  = --localstatedir=/var/lib --libdir=/usr/lib
 
 ifneq ($(filter $(DEB_HOST_ARCH),$(WITHOUT_JEMALLOC_ARCH_LIST)),)
-LOCAL_CONFIGURE_FLAGS += --without-jemalloc
+#LOCAL_CONFIGURE_FLAGS += --without-jemalloc
 endif
 
 # Ship contrib scripts
