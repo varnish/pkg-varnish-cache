@@ -1,0 +1,30 @@
+Source: vmod-oidc
+Section: net
+Priority: extra
+Maintainer: Varnish Software <opensource@varnish-software.com>
+Build-Depends:
+ build-essential,
+ cargo,
+ debhelper (>= 9),
+ debhelper-compat (= 11),
+ jq,
+ libclang-dev,
+ libssl-dev,
+ pkg-config,
+ python3-docutils,
+ varnish,
+ varnish-dev,
+Standards-Version: 3.9.5
+Vcs-Git: git://github.com/perbu/vmod_oidc.git
+
+Package: vmod-oidc
+Architecture: any
+Depends:
+ varnish (= ${binary:Version}),
+ ${varnishd:ABI},
+ ${shlibs:Depends},
+ ${misc:Depends},
+Description: OpenID Connect authentication VMOD for Varnish
+ Allows Varnish to act as an OpenID Connect Relying Party, authenticating
+ users against any OIDC-compliant identity provider before serving cached
+ content. Sessions are stateless and cookie-based.

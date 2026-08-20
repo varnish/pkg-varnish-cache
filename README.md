@@ -15,6 +15,7 @@ You can check the authoritative liste of packages and the actual version of each
 - [vmod-fileserver](https://github.com/varnish-rs/vmod-fileserver/): use a filesystem as backend
 - [vmod-geoip2](https://github.com/varnishcache-friends/libvmod-geoip2/): load and query `mmdb` databases
 - [vmod-jq](https://github.com/varnishcache-friends/libvmod-jq/): parse and manipulate JSON strings
+- [vmod-oidc](https://github.com/perbu/vmod_oidc/): OpenID Connect authentication for Varnish
 - [vmod-querystring](https://git.sr.ht/~dridi/vmod-querystring/): filter and sanitize querystring parameters
 - [vmod-redis](https://github.com/carlosabalde/libvmod-redis/): query `redis`/`valkey` databases from VCL
 - [vmod-reqwest](https://github.com/varnish-rs/vmod-reqwest/): dynamic backends and HTTP requests (support HTTPS and HTTP/2, as well as Brotly)

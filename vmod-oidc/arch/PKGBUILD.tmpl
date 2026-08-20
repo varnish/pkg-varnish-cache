@@ -1,0 +1,32 @@
+# Maintainer: Varnish Software <opensource@varnish-software.com>
+
+pkgname=vmod-oidc
+pkgver=@PKGVER@
+pkgrel=@PKGREL@
+_srcver=@SRCVER@
+_srcname=vmod_oidc
+pkgdesc="OpenID Connect authentication VMOD for Varnish"
+arch=('x86_64')
+url="https://github.com/perbu/vmod_oidc"
+license=('BSD-2-Clause')
+depends=("varnish=$pkgver-$pkgrel")
+makedepends=('cargo' 'clang' 'openssl' 'pkg-config' 'python-docutils' 'jq')
+source=("$pkgname-$_srcver.tar.gz::https://github.com/perbu/vmod_oidc/archive/refs/tags/v${_srcver}.tar.gz")
+sha512sums=('SKIP')
+options=(!lto)
+
+prepare() {
+    cd "$_srcname-$_srcver"
+    cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
+}
+
+build() {
+    cd "$_srcname-$_srcver"
+    cargo build --frozen --release --features vmod
+}
+
+package() {
+    cd "$_srcname-$_srcver"
+    install -Dt "$pkgdir/$(pkg-config varnishapi --variable=vmoddir)" target/release/*.so
+    install -Dm644 "LICENSE.md" "$pkgdir/usr/share/licenses/$pkgname/LICENSE.md"
+}
