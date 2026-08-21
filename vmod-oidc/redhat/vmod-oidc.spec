@@ -8,7 +8,6 @@ URL:     https://github.com/perbu/vmod_oidc
 Source:  %{srcurl}
 
 BuildRequires: 	openssl-devel
-BuildRequires: 	jq
 BuildRequires: 	cargo
 BuildRequires: 	clang-devel
 BuildRequires:  varnish-devel = %{version}-%{release}

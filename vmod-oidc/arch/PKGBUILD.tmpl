@@ -10,7 +10,7 @@ arch=('x86_64')
 url="https://github.com/perbu/vmod_oidc"
 license=('BSD-2-Clause')
 depends=("varnish=$pkgver-$pkgrel")
-makedepends=('cargo' 'clang' 'openssl' 'pkg-config' 'python-docutils' 'jq')
+makedepends=('cargo' 'clang' 'openssl' 'pkg-config')
 source=("$pkgname-$_srcver.tar.gz::https://github.com/perbu/vmod_oidc/archive/refs/tags/v${_srcver}.tar.gz")
 sha512sums=('SKIP')
 options=(!lto)

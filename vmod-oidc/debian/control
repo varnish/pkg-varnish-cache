@@ -7,11 +7,9 @@ Build-Depends:
  cargo,
  debhelper (>= 9),
  debhelper-compat (= 11),
- jq,
  libclang-dev,
  libssl-dev,
  pkg-config,
- python3-docutils,
  varnish,
  varnish-dev,
 Standards-Version: 3.9.5
