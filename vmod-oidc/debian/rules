@@ -1,0 +1,26 @@
+#!/usr/bin/make -f
+DEB_BUILD_OPTIONS=noddebs
+
+CARGO=~/.cargo/bin/cargo
+
+%:
+	dh $@ --parallel
+
+VARNISHD_ABI = $(shell varnishd -V 2>&1 | sed -En 's/.*revision ([0-9a-f]*).*/\1/p')
+
+override_dh_gencontrol:
+	echo "varnishd:ABI=varnishd-abi-$(VARNISHD_ABI)" >> debian/substvars
+	dh_gencontrol -- -Tdebian/substvars
+
+override_dh_auto_configure:
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- -y
+	${CARGO} fetch --locked
+
+override_dh_auto_build:
+	${CARGO} build --frozen --release --features vmod
+
+override_dh_auto_install:
+	install -Dt debian/vmod-oidc/usr/lib/varnish/vmods/ target/release/libvmod_oidc.so
+
+override_dh_auto_test:
+	export RUST_BACKTRACE=1; ${CARGO} test --frozen --release --features vmod --lib

@@ -5,6 +5,7 @@ varnish v1 -vcl {
 
 	import fileserver;
 	import jq;
+	import oidc;
 	import querystring;
 	import redis;
 	import reqwest;
