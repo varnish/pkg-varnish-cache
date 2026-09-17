@@ -5,12 +5,15 @@ on:
     paths:
       - pkg.env
 
+permissions:
+  contents: read
+
 jobs:
   check:
     name: Warn if package_release wasn't reset on a varnish_version bump
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -29,5 +32,6 @@ jobs:
           echo "package_release: $OLD_RELEASE -> $NEW_RELEASE"
 
           if [ "$OLD_VERSION" != "$NEW_VERSION" ] && [ "$NEW_RELEASE" != "1" ]; then
-            echo "::warning file=pkg.env::varnish_version changed ($OLD_VERSION -> $NEW_VERSION) but package_release is $NEW_RELEASE instead of being reset to 1. A new upstream version should normally start a fresh package_release cycle, double check this is intentional."
+            echo "::error file=pkg.env::varnish_version changed ($OLD_VERSION -> $NEW_VERSION) but package_release is $NEW_RELEASE instead of being reset to 1. A new upstream version should normally start a fresh package_release cycle, double check this is intentional."
+            exit 1
           fi
