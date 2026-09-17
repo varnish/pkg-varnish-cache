@@ -72,6 +72,11 @@ jobs:
             -i \
             -e "s/VARS\[varnish_sha512\]=.*/VARS[varnish_sha512]=${ACTUAL_SHA512}/" \
             "$PKG_ENV_FILE"
+          echo "Resetting package_release to 1 for the new varnish version"
+          sed \
+            -i \
+            -e "s/^package_release=.*/package_release=1/" \
+            "$PKG_ENV_FILE"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
           git switch -c "$BRANCH"
