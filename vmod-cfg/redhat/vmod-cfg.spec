@@ -51,9 +51,7 @@ find %{buildroot}/%{_libdir}/ -name '*.la' -exec rm -f {} ';'
 
 
 %check
-%if 0%{?amzn} == 0
 %make_build check VERBOSE=1
-%endif
 
 
 %files
