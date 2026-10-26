@@ -8,6 +8,18 @@ Type=forking
 User=varnishlog
 Group=varnish
 
+# Sandboxing. If one of these gets in your way, turn it off with a drop-in:
+# systemctl edit varnishncsa
+ProtectSystem=full
+ProtectHome=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictRealtime=true
+LockPersonality=true
+NoNewPrivileges=true
+
 # Beware of custom formats! If you wish to use a different format using the
 # -F option for varnishncsa, please note that systemd also uses percent '%'
 # expansion in unit files: you need to double the percent signs in your

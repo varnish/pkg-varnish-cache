@@ -5,6 +5,7 @@ After=network-online.target nss-lookup.target
 [Service]
 Type=forking
 KillMode=mixed
+Restart=on-failure
 
 # Maximum number of open files (for ulimit -n)
 LimitNOFILE=131072
@@ -20,6 +21,18 @@ TasksMax=infinity
 
 # Maximum size of the corefile.
 LimitCORE=infinity
+
+# Sandboxing. If one of these gets in your way (e.g. VCL or storage files
+# under /home), turn it off with a drop-in: systemctl edit varnish
+ProtectSystem=full
+ProtectHome=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictRealtime=true
+LockPersonality=true
+NoNewPrivileges=true
 
 # A PID file makes the main process selection deterministic.
 RuntimeDirectory=%N
