@@ -8,6 +8,16 @@ Type=forking
 User=varnishlog
 Group=varnish
 
+# Sandboxing. If one of these gets in your way, turn it off with a drop-in:
+# systemctl edit varnishncsa
+ProtectSystem=full
+ProtectHome=true
+ProtectControlGroups=true
+# Seccomp-based options (PrivateDevices, ProtectKernel*, RestrictRealtime,
+# LockPersonality...) are not used: since this unit runs as an unprivileged
+# User=, systemd implies NoNewPrivileges=true for them, which prevents the
+# SELinux transition from init_t to varnishlog_t on EL/AL2023.
+
 # Beware of custom formats! If you wish to use a different format using the
 # -F option for varnishncsa, please note that systemd also uses percent '%'
 # expansion in unit files: you need to double the percent signs in your
