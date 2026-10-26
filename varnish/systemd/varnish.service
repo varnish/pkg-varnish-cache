@@ -32,7 +32,8 @@ ProtectKernelModules=true
 ProtectControlGroups=true
 RestrictRealtime=true
 LockPersonality=true
-NoNewPrivileges=true
+# No NoNewPrivileges=true: it prevents the SELinux transition from init_t to
+# varnishd_t (nnp_transition is not allowed by the policy on EL/AL2023).
 
 # A PID file makes the main process selection deterministic.
 RuntimeDirectory=%N

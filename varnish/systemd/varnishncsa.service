@@ -12,13 +12,11 @@ Group=varnish
 # systemctl edit varnishncsa
 ProtectSystem=full
 ProtectHome=true
-PrivateDevices=true
-ProtectKernelTunables=true
-ProtectKernelModules=true
 ProtectControlGroups=true
-RestrictRealtime=true
-LockPersonality=true
-NoNewPrivileges=true
+# Seccomp-based options (PrivateDevices, ProtectKernel*, RestrictRealtime,
+# LockPersonality...) are not used: since this unit runs as an unprivileged
+# User=, systemd implies NoNewPrivileges=true for them, which prevents the
+# SELinux transition from init_t to varnishlog_t on EL/AL2023.
 
 # Beware of custom formats! If you wish to use a different format using the
 # -F option for varnishncsa, please note that systemd also uses percent '%'
